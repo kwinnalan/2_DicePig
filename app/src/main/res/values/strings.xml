@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">2dicePig</string>
+    <string name="rollButton">Roll!</string>
+    <string name="todo">TODO</string>
+    <string name="roll">Go to Roll</string>
+    <string name="player_1_score">Player 1 Score</string>
+    <string name="player_2_score">Player 2 Score</string>
+    <string name="player_it_is_your_turn">It is your turn</string>
+    <string name="player">Player</string>
+    <string name="pref_previously_started" />
+    <string name="congrats">Congratulations!!</string>
+    <string name="winner">Winner</string>
+    <string name="youHaveWon">You have just won two dice pig!! Oink!</string>
+    <string name="hold">Hold</string>
+    <string name="is_first_round" >pref_is_first_round</string>
+    <string name="pref_is_first_round">pref_first_game</string>
+    <string name="rules">Rules?</string>
+    <string name="player2_cpu">Player2=CPU</string>
+    <string name="rulesText">Pig-Dice-Game: Each turn, a player repeatedly rolls a die until either a 1 is rolled or the player decides to \"hold\": If the player rolls a 1, they score nothing and it becomes the next player\'s turn. If the player rolls any other number, it is added to their turn total and the player\'s turn continues. If a player chooses to \"hold\", their turn total is added to their score, and it becomes the next player\'s turn. The first player to score 100 or more points wins. Two-Dice Pig: This variation is the same as Pig, except:
+    Two standard dice are rolled. If neither shows a 1, their sum is added to the turn total.
+    If a single 1 is rolled, the player scores nothing and the turn ends.
+    If two 1s are rolled, the player’s entire score is lost, and the turn ends.
+    If a double is rolled, the point total is added together and doubled before being added to the players score </string>
+    <string name="player_two_cpu_switch">player_two_cpu_switch</string>
+</resources>
