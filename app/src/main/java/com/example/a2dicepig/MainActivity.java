@@ -24,8 +24,17 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
+/**
+ * The 2DicePig program is an Android game application that
+ * allows a user to play 2dice pig the dice game alone
+ * or with a friend.
+ *
+ * This class MainActivity creates an object that controls the activity
+ * and visual simulation of the main score page
+ *
+ * @author  Kwinn Danforth
+ * @version 1.1.01
+ */
 public class MainActivity extends AppCompatActivity
 {
     private int GOAL_SCORE;
@@ -43,6 +52,13 @@ public class MainActivity extends AppCompatActivity
     private TextView player1ScoreView;
     private TextView player2ScoreView;
     private TextView currentPlayer;
+
+    /**
+     * This method is called when the activity_main intent is sent or the program is first started. It sets the content view
+     * to activity_main. As well as acts as a constructor to set up things for the MainActivity Class.
+     *
+     * @param savedInstanceState This is the parameter to the onCreate method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -78,6 +94,13 @@ public class MainActivity extends AppCompatActivity
         rulesButtonClick();
     }
 
+    /**
+     * This method is called if the player2=CPU switch is on
+     * It simulates the CPU player2 playing the dice pig game
+     * by sending the intent as if the go to roll button was clicked
+     * but adds an Extra with cpuPlayer2 = true.
+     *
+     */
     private void CPUplay() {
         if(player2isCPU && whosTurn == 1){
             if(players.get(0).getScore() >= GOAL_SCORE || players.get(1).getScore() >= GOAL_SCORE){
@@ -91,6 +114,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * This method sets the onCheckChanged listener for the player2=CPU switch
+     * If the switch gets switched to on the checkChanged listener will set player2isCPU to true
+     * and edit the related shared preference to true. Else it sets both to false.
+     *
+     */
     private void player2CpuSwitch() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         SharedPreferences.Editor edit = prefs.edit();
@@ -110,7 +139,12 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-
+    /**
+     * This method is called if shared preference prep_first_game is set to tru
+     * If it is that it will change it to false. This is so that the new game data is only
+     * loaded in the case of a new game.
+     *
+     */
     private void changeFirstRoundPrefToFalse() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         SharedPreferences.Editor edit = prefs.edit();
@@ -118,6 +152,16 @@ public class MainActivity extends AppCompatActivity
         edit.commit();
     }
 
+    /**
+     * This is the scoreRoll method and that is what it does. It takes the
+     * two integers returned from the two dice in the simulated dice roll.
+     * Then scores the points according to the rules of the game.
+     * It calls the edit record method to correctly record the game in
+     * the game_data.csv
+     *
+     * @param die1Side, One of the two integers returned by the simulated dice roll.
+     * @param die2Side, One of the two integers returned by the simulated dice roll.
+     */
     private void scoreRoll(int die1Side, int die2Side) {
         if(die2Side == 0){                      //meaning hold was pressed
             changeTurn();
@@ -138,6 +182,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * This method reads the game_data.csv file into the program
+     * to populate the game data.
+     *
+     */
     private void getGameData()
     {
         BufferedReader reader;
@@ -163,6 +212,14 @@ public class MainActivity extends AppCompatActivity
         }
    }
 
+    /**
+     * This method sets up the onClickListener for the go to roll button.
+     * If the game is over (either player made it to 100 or more) it will call the
+     * winnerDisplay() method and then the newGame() method. If the game is not
+     * over it sets a new intent and add the Extra about whether or not the
+     * player2Cpu switch is switched. then starts the roll activity.
+     *
+     */
     private void goToRollButtonClick()
     {
         goToRollButton.setOnClickListener(new View.OnClickListener() {
@@ -180,6 +237,11 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * This method sets the text views of activity_main to show the proper
+     * game data read in from the game_data.csv
+     *
+     */
     public void displayScore()
     {
         player1ScoreView = (TextView) findViewById(R.id.player1Score);
@@ -191,6 +253,12 @@ public class MainActivity extends AppCompatActivity
         currentPlayer.setText(players.get(whosTurn).getName());
     }
 
+    /**
+     * This method edits the record of the game_data file in order to
+     * change the players turn. If it is player1s turn it changes to player2
+     * or vice versa.
+     *
+     */
     public void changeTurn() {
         if (whosTurn == 0) {
             editRecord("0", "1");
@@ -201,6 +269,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * This method edits the game_data.csv file.
+     *
+     * @param editTerm, The term in the record we want to edit
+     * @param newScore, The new value we want to add to the edit term
+     */
     public void editRecord(String editTerm, String newScore) {
         try{
             FileOutputStream fileOutputStream = openFileOutput("temp.csv", MODE_PRIVATE);
@@ -232,6 +306,15 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /**
+     * This method checks the shared preferences of the application.
+     * If the previously started preference is not true it runs the method to create the game_data.csv file.
+     * If it is the first round of a game is first round is set so that no points are scored
+     * for the default die values on the first round.
+     * If player2 CPU switch preferance is true it sets the player2CPU switch to on and sets player2isCPU
+     * to true. Else it sets it to false.
+     *
+     */
     public void checkSharedPref() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         boolean previouslyStarted = prefs.getBoolean(getString(R.string.pref_previously_started), false);
@@ -256,6 +339,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * This method sets a new intent for the WinnerDisplayActivity. It add an Extra
+     * in order to tell winner display who won. Then it starts the winner display activity.
+     *
+     */
     private void winnerDisplay() {
         String winner;
         if(players.get(0).getScore() > players.get(1).getScore()){
@@ -263,11 +351,17 @@ public class MainActivity extends AppCompatActivity
         }else {
             winner = players.get(1).getName();
         }
-        Intent intent = new Intent(MainActivity.this, WinnerDisplay.class);
+        Intent intent = new Intent(MainActivity.this, WinnerDisplayActivity.class);
         intent.putExtra("winner", winner);
         startActivity(intent);
     }
 
+    /**
+     * This method is called to start a new game of two dice pig.
+     * It sets the players scores to zero and sets the shared preference
+     * is first round to true.
+     *
+     */
     private void newGame() {
         for(int i = 0; i < players.size(); i++) {
             players.get(i).setScore(0);
@@ -279,6 +373,11 @@ public class MainActivity extends AppCompatActivity
         edit.commit();
     }
 
+    /**
+     * This method creates the game_data.csv for the first time on the device
+     * after the app is first ran. It crates an intent to go to the GameFileCreator
+     *
+     */
     private void createGameDataFile() {
         Intent intent = new Intent(MainActivity.this, GameDataFileCreator.class);
         startActivity(intent);
@@ -294,6 +393,10 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * This method sets an intent to go to the rules page. Then starts the activity to that intent.
+     *
+     */
     private void goToRulesPage() {
         Intent intent = new Intent(MainActivity.this, RulesActivity.class);
         startActivity(intent);

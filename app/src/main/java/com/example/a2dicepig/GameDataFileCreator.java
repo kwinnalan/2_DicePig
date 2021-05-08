@@ -15,10 +15,27 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 
+/**
+ * The 2DicePig program is an Android game application that
+ * allows a user to play 2dice pig the dice game alone
+ * or with a friend.
+ *
+ * This class GameDataFileCreator creates an object that acts as a tool to take the
+ * data for a new two dice pig game and writes it into a csv file we can work with the first
+ * time the app is run on a device.
+ *
+ * @author  Kwinn Danforth
+ * @version 1.1.01
+ */
 public class GameDataFileCreator extends AppCompatActivity {
     private String MY_FILE_NAME = "game_data.csv";
 
-
+    /**
+     * This method is called when the GameDataFileCreator object is created.
+     * it calls the method to get the game data.
+     *
+     * @param savedInstanceState This is the parameter to the onCreate method
+     */
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
@@ -26,7 +43,11 @@ public class GameDataFileCreator extends AppCompatActivity {
         getGameData();
     }
 
-
+    /**
+     * This method takes the raw/game_data file and rewrites it into a new game_data.csv
+     * that we can use to keep the information for the game and read it in to populate the game.
+     *
+     */
     private void getGameData()
     {
         InputStream is = getResources().openRawResource(R.raw.game_data);

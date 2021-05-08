@@ -12,6 +12,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Random;
 
+/**
+ * The 2DicePig program is an Android game application that
+ * allows a user to play 2dice pig the dice game alone
+ * or with a friend.
+ *
+ * This class RollActivity creates an object that controls the activity
+ * and visual simulation of rolling the two dice
+ *
+ * @author  Kwinn Danforth
+ * @version 1.1.01
+ */
 public class RollActivity extends AppCompatActivity {
     private static ImageView imgView;
     private static ImageView imgViewTwo;
@@ -23,6 +34,15 @@ public class RollActivity extends AppCompatActivity {
     private int die1Side;
     private int die2Side;
     int[] sides = {R.drawable.die1, R.drawable.die2, R.drawable.die3, R.drawable.die4, R.drawable.die5, R.drawable.die6};
+
+    /**
+     * This method is called when the activity_roll intent is sent.
+     * It sets the contentView to activity_roll
+     * It dose some of the set up for our class and calls the methods
+     * that start the click listener functions.
+     *
+     * @param savedInstanceState This is the parameter to the onCreate method
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +56,21 @@ public class RollActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method is called if the player2=CPU switch is on
+     * It simulates the CPU player2 pushing the button to roll the dice
+     *
+     */
     private void cPURoll() {
         rollButton.performClick();
     }
 
+    /**
+     * This method sets up the click listener for the roll button
+     * Inside it calls the onClick method if the roll button is clicked
+     * when it is clicked onClick simulated=s rolling two dice
+     *
+     */
     public void rollButtonClick()
     {
         imgView = (ImageView) findViewById(R.id.dieView);
@@ -65,6 +96,14 @@ public class RollActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method sets up the click listener for the hold button.
+     * Inside it calls the onClick method, if the hold button is clicked.
+     * When it is clicked onClick starts the user back to the home page without
+     * rolling the dice. It also sends some information to goToScore() to replace the die1Side and
+     * die2Side. This info is used so that no points are scored on the hold
+     *
+     */
     public void holdButtonClick() {
         holdButton = (Button) findViewById(R.id.holdButton);
         holdButton.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +114,12 @@ public class RollActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * This method sends the user back to the activity_main "score" page.
+     * it adds in the Extras including the two sides of the die that where
+     * rolled and sends them to the MainActivity.
+     *
+     */
     private void goToScorePage() {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -89,6 +133,14 @@ public class RollActivity extends AppCompatActivity {
         }, 2000);
     }
 
+    /**
+     * This method sends the user back to the activity_main "score" page.
+     * it adds in the Extras including the numbers that take place of die1Side and
+     * die2Side in the case of a hold and sends them with the intent to the MainActivity.
+     *
+     * @param hold, boolean weather or not this is a hold
+     *
+     */
     private void goToScorePage(boolean hold) {
         Intent intent = new Intent(RollActivity.this, MainActivity.class);
         intent.putExtra("die1Side", 1 );
